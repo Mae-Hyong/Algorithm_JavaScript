@@ -1,0 +1,17 @@
+SELECT
+  I.REST_ID,
+  I.REST_NAME,
+  I.FOOD_TYPE,
+  I.FAVORITES,
+  I.ADDRESS,
+  ROUND(AVG(R.REVIEW_SCORE), 2) AS SCORE -- 리뷰 평균 점수를 소수점 세 번째 자리에서 반올림
+FROM
+  REST_INFO I
+JOIN
+  REST_REVIEW R ON I.REST_ID = R.REST_ID
+WHERE
+  I.ADDRESS LIKE '서울%'
+GROUP BY
+  I.REST_ID, I.REST_NAME, I.FOOD_TYPE, I.FAVORITES, I.ADDRESS -- 식당 정보 그룹화
+ORDER BY
+  SCORE DESC, I.FAVORITES DESC; -- 평균점수를 기준으로 내림차순 정렬, 동일한 경우에는 즐겨찾기수를 기준으로 내림차순 정렬
